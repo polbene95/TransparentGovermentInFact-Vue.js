@@ -1,0 +1,140 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Senate - Transparent Goverment In Fact</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Mono' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="/style/main-style.css">
+</head>
+
+<body>
+    <div class="body" id="app">
+        <header class="header">
+            <div class="col-12">
+                <div class="title col-12">
+                    <div class="tgif-info">
+                        <div class="container row">
+                            <h1 class="texttgif col-12 col-sm-12 col-md-3 col-xl-3 col-lg-3" href="home-starter-page.html">TGIF</h1>
+                            <div class="mailinfo col-12 col-sm-12 offset-lg-5 offset-xl-5 offset-md-5 col-md-4 col-xl-4 col-lg-4">
+                                <a href="mailto:info@tgif.net">info@tgif.net</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <nav class="col-12 navbar">
+                    <div class="list-inline container row">
+                        <span class="border-1"></span>
+                        <div class="col-12 col-xl-2 col-lg-2 col-md-2 col-sm-12"><a class="texthome" href="index.html">Home</a></div>
+                        <div class="dropdown col-12 col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                            <a class="dropdown-toggle" data-toggle="dropdown">Congress 113</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="senate-data.html">Senate</a>
+                                <a class="dropdown-item" href="house-data.html">House</a>
+                            </div>
+                        </div>
+                        <div class="name-site col-12 col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                            <h2><a href="#">Senate</a></h2>
+                        </div>
+                        <div class="dropdown col-12 col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                            <a class="dropdown-toggle" data-toggle="dropdown">Attendance</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="senate-attendance.html">Senate</a>
+                                <a class="dropdown-item" href="house-attendance.html">House</a>
+                            </div>
+                        </div>
+                        <div class="dropdown col-12 col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                            <a class="dropdown-toggle" data-toggle="dropdown">Party Loyalty</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="senate-party-loyalty.html">Senate</a>
+                                <a class="dropdown-item" href="house-party-loyalty.html">House</a>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <div class="section-info">
+            <div class="container">
+                <div class="on-loading">
+                    <div class="row">
+                        <div v-if="members.length > 0 || hideUntilLoad" class="col-12">
+                            <h2>Senators</h2>
+                            <p>First convened in 1789, the composition and powers of the Senate are established in Article One of the U.S. Constitution. Each state is represented by two senators, regardless of population, who serve staggered six-year terms. The Senate has several exclusive powers not granted to the House, including consenting to treaties as a precondition to their ratification and consenting to or confirming appointments of Cabinet secretaries, federal judges, other federal executive officials, military officers, regulatory officials, ambassadors, and other federal uniformed officers, as well as trial of federal officials impeached by the House.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row" id="filters-div">
+                        <div v-if="members.length > 0 || hideUntilLoad" class="party col-12 col-sm-12 col-xl-9 col-lg-9 col-md-9">
+                            <div>
+                                <p>Filter by Party:</p>
+                            </div>
+                            <input type="checkbox" id="dem" name="party" value="D" @click="filter" checked>
+                            <label>Democrat</label>
+                            <input type="checkbox" id="rep" name="party" value="R" @click="filter" checked>
+                            <label>Republican</label>
+                            <input type="checkbox" id="ind" name="party" value="I" @click="filter" checked>
+                            <label>Independent</label>
+                        </div>
+                        <div v-if="members.length > 0 || hideUntilLoad" class="state col-12 col-sm-12 col-xl-3 col-lg-3 col-md-3">
+                            <div>
+                                <p>Filter by State:</p>
+                            </div>
+                            <div>
+                                <select name="states" id="states" @change="filter">
+                                    <option value="all">--All--</option>
+                                    <option v-for="state in states" :value="state">{{state}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table table-hover" v-if="members.length > 0" v-cloak>
+                        <thead id="house-thead">
+                            <tr>
+                                <td>Name</td>
+                                <td>Party</td>
+                                <td>State</td>
+                                <td>Seniority</td>
+                                <td>Votes Pct</td>
+                            </tr>
+                        </thead>
+                        <tbody id="house-main-table">
+                            <tr v-for="member in members">
+                                <td>
+                                    <a :href="member.url">{{member.last_name}}, {{member.first_name}} <span v-if="member.middle_name">{{member.middle_name}}</span> </a>
+                                </td>
+                                <td>{{ member.party }} </td>
+                                <td>{{ member.state }} </td>
+                                <td>{{ member.seniority }} </td>
+                                <td>{{ member.votes_with_party_pct }} %</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="notification-container container">
+                        <div class="notification is-danger" v-if="canShowAdvice && members.length == 0">
+                            No member with this criteria. Try to change State or Party to solve it.
+                        </div>
+                    </div>
+                    <div class="div-loader" v-if="allMembers.length == 0">
+                        <div class="loader"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="container footer main-info">
+            <div class="col-12">
+                <p>©2016 TGIF | All Rights Reserved</p>
+            </div>
+        </footer>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="/scripts/senate.js"></script>
+    <script src="scripts/general-rules.js"></script>
+</body>
+
+</html>

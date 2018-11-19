@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Senate Attendance - Transparent Government In Fact</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Mono' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="/style/main-style.css">
+</head>
+
+<body>
+    <div class="body" id="app">
+        <header class="header">
+            <div class="col-12">
+                <div class="title col-12">
+                    <div class="tgif-info">
+                        <div class="container row">
+                            <h1 class="texttgif col-12 col-sm-12 col-md-3 col-xl-3 col-lg-3" href="home-starter-page.html">TGIF</h1>
+                            <div class="mailinfo col-12 col-sm-12 offset-lg-5 offset-xl-5 offset-md-5 col-md-4 col-xl-4 col-lg-4">
+                                <a href="mailto:info@tgif.net">info@tgif.net</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <nav class="col-12 navbar">
+                    <div class="list-inline container row">
+                        <span class="border-1"></span>
+                        <div class="col-12 col-xl-2 col-lg-2 col-md-2 col-sm-12"><a class="texthome" href="index.html">Home</a></div>
+                        <div class="dropdown col-12 col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                            <a class="dropdown-toggle" data-toggle="dropdown">Congress 113</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="senate-data.html">Senate</a>
+                                <a class="dropdown-item" href="house-data.html">House</a>
+                            </div>
+                        </div>
+                        <div class="name-site col-12 col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                            <h2><a href="#">Senate Attendance</a></h2>
+                        </div>
+                        <div class="dropdown col-12 col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                            <a class="dropdown-toggle" data-toggle="dropdown">Attendance</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="senate-attendance.html">Senate</a>
+                                <a class="dropdown-item" href="house-attendance.html">House</a>
+                            </div>
+                        </div>
+                        <div class="dropdown col-12 col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                            <a class="dropdown-toggle" data-toggle="dropdown">Party Loyalty</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="senate-party-loyalty.html">Senate</a>
+                                <a class="dropdown-item" href="house-party-loyalty.html">House</a>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <div class="container">
+            <div class="on-loading">
+                <div class="row">
+                    <div v-if="members.length > 0" class="content_info1 col-12 col-xs-12 col-md-8 col-lg-8 col-xl-8">
+                        <h2>Attendance</h2>
+                        <p>The Constitution specifies that a majority of members constitutes a quorum to do business in each house. Representatives and senators rarely force the presence of a quorum by demanding quorum calls; thus, in most cases, debates continue even if a majority is not present.</p>
+
+                        <p>The Senate uses roll-call votes; a clerk calls out the names of all the senators, each senator stating "aye" or "no" when his or her name is announced. The House reserves roll-call votes for the most formal matters, as a roll-call of all 435 representatives takes quite some time; normally, members vote by electronic device. In the case of a tie, the motion in question fails. In the Senate, the Vice President may (if present) cast the tiebreaking vote.</p>
+                    </div>
+                    <div class="content_info2 col-12 col-xs-12 col-md-4 col-lg-4 col-xl-4" v-if="members.length > 0" v-cloak>
+                        <h2>Senate at a glance</h2>
+                        <table class="table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Party</th>
+                                    <th>Number of Reps</th>
+                                    <th>% Voted with Party</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="statistic in statistics">
+                                    <td>{{statistic.party}}</td>
+                                    <td>{{statistic.number}}</td>
+                                    <td>{{statistic.votesPct}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row" v-if="members.length > 0" v-cloak>
+                    <div class="content_info3 col-12 col-xs-12 col-md-6 col-lg-6 col-xl-6">
+                        <h2>Least Engaged (Bottom 10% Attendance)</h2>
+                        <table class="table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Number of Missed Votes</th>
+                                    <th>% Missed</th>
+                                </tr>
+                            </thead>
+                            <tbody id="least-engaged">
+                                <tr v-for="lowest in lowests">
+                                    <td><a :href="lowest.url">{{lowest.last_name}}, {{lowest.first_name}} <span v-if="lowest.middle_name">{{lowest.middle_name}}</span></a> </td>
+                                    <td>{{lowest.missed_votes}}</td>
+                                    <td>{{lowest.missed_votes_pct}}%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="content_info4 col-12 col-xs-12 col-md-6 col-lg-6 col-xl-6">
+                        <h2>Most Engaged (Top 10% Attendance)</h2>
+                        <table class="table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Number of Missed Votes</th>
+                                    <th>% Missed</th>
+                                </tr>
+                            </thead>
+                            <tbody id="most-engaged">
+                                <tr v-for="highest in highests">
+                                    <td><a :href="highest.url">{{highest.last_name}}, {{highest.first_name}} <span v-if="highest.middle_name">{{highest.middle_name}}</span></a> </td>
+                                    <td>{{highest.missed_votes}}</td>
+                                    <td>{{highest.missed_votes_pct}}%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="div-loader" v-if="allMembers.length == 0">
+                    <div class="loader"></div>
+                </div>
+            </div>
+        </div>
+        <footer class="container footer main-info">
+            <div class="col-12">
+                <p>©2016 TGIF | All Rights Reserved</p>
+            </div>
+        </footer>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="/scripts/senate.js"></script>
+    <script src="scripts/general-rules.js"></script>
+</body>
+
+</html>
