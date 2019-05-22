@@ -32,31 +32,31 @@ var app = new Vue({
             /////Javascript vanilla/////
             // Uncomment xhr.setRequestHeader part for adding a Header
 
-            function loadJSON(path, success, error) {
-                var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                        success(JSON.parse(xhr.responseText));
-                    } else {
-                        error(xhr);
-                    }
-                };
-                xhr.open("GET", path, true);
-                //xhr.setRequestHeader("API-Key", "your api key");
-                xhr.send();
-            }
-            loadJSON(this.url,
-                function (data) {
-                    console.log(data);
-                    app.members = data.results[0].members;
-                    app.allMembers = app.members;
-                    app.statesArray();
-                    app.canShowAdvice = true;
-                },
-                function (xhr) {
-                    console.error(xhr);
-                }
-            );
+//            function loadJSON(path, success, error) {
+//                var xhr = new XMLHttpRequest();
+//                xhr.onreadystatechange = function () {
+//                    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+//                        success(JSON.parse(xhr.responseText));
+//                    } else {
+//                        error(xhr);
+//                    }
+//                };
+//                xhr.open("GET", path, true);
+//                //xhr.setRequestHeader("API-Key", "your api key");
+//                xhr.send();
+//            }
+//            loadJSON(this.url,
+//                function (data) {
+//                    console.log(data);
+//                    app.members = data.results[0].members;
+//                    app.allMembers = app.members;
+//                    app.statesArray();
+//                    app.canShowAdvice = true;
+//                },
+//                function (xhr) {
+//                    console.error(xhr);
+//                }
+//            );
 
             fetch(this.url)
                 .then(function (response) {
@@ -64,6 +64,7 @@ var app = new Vue({
                         return response.json();
                 })
                 .then(function (data) {
+                console.log(data)
                     app.members = data.results[0].members;
                     app.allMembers = app.members;
                     app.statesArray();
